@@ -61,14 +61,14 @@ function handleError(res, statusCode) {
 
 // Gets a list of Things
 export function index(req, res) {
-    return Thing.findAll()
+    return Product.findAll()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
 // Gets a single Thing from the DB
 export function show(req, res) {
-    return Thing.find({
+    return Product.find({
         where: {
             id: req.params.id
         }
@@ -80,7 +80,7 @@ export function show(req, res) {
 
 // Creates a new Thing in the DB
 export function create(req, res) {
-    return Thing.create(req.body)
+    return Product.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
@@ -90,7 +90,7 @@ export function upsert(req, res) {
     if(req.body.id) {
         Reflect.deleteProperty(req.body, 'id');
     }
-    return Thing.upsert(req.body, {
+    return Product.upsert(req.body, {
         where: {
             id: req.params.id
         }
@@ -104,7 +104,7 @@ export function patch(req, res) {
     if(req.body.id) {
         Reflect.deleteProperty(req.body, 'id');
     }
-    return Thing.find({
+    return Product.find({
         where: {
             id: req.params.id
         }
@@ -117,7 +117,7 @@ export function patch(req, res) {
 
 // Deletes a Thing from the DB
 export function destroy(req, res) {
-    return Thing.find({
+    return Product.find({
         where: {
             id: req.params.id
         }

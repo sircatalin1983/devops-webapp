@@ -82,7 +82,6 @@ export class DashboardComponent implements OnInit {
 
     private getTools() {
         this.toolService.getItems().subscribe(toolItems => {
-            console.log ('test: ' + JSON.stringify(toolItems));
             this.toolItems = toolItems;
         });
     }
