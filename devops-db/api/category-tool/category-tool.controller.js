@@ -85,18 +85,36 @@ export function create(req, res) {
         .catch(handleError(res));
 }
 
+
 // Upserts the given Thing in the DB at the specified ID
 export function upsert(req, res) {
-    if(req.body.id) {
+    if (req.body.id) {
         Reflect.deleteProperty(req.body, 'id');
     }
-    return CategoryTool.upsert(req.body, {
-        where: {
-            id: req.params.id
+
+    return CategoryTool.findById(req.params.id).then(item => {
+        if (item) {
+            CategoryTool.update(
+                req.body,
+                {
+                    where: { id: req.params.id },
+                    //logging: console.log
+                }
+            )
+                .then(respondWithResult(res))
+                .catch(handleError(res));
+        } else {
+            CategoryTool.create(
+                req.body,
+                {
+                    where: { id: req.params.id },
+                    //logging: console.log
+                }
+            )
+                .then(respondWithResult(res))
+                .catch(handleError(res));
         }
-    })
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    });
 }
 
 // Updates an existing Thing in the DB

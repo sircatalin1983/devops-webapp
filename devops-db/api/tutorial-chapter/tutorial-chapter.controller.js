@@ -11,8 +11,7 @@
 import { applyPatch } from 'fast-json-patch';
 import { TutorialChapter } from '../../sqldb';
 
-function respondWithResult(res, statusCode) {
-    statusCode = statusCode || 200;
+function respondWithResult(res, statusCode)
     return function(entity) {
         if(entity) {
             return res.status(statusCode).json(entity);
@@ -61,14 +60,14 @@ function handleError(res, statusCode) {
 
 // Gets a list of Things
 export function index(req, res) {
-    return Thing.findAll()
+    return TutorialChapter.findAll()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
 // Gets a single Thing from the DB
 export function show(req, res) {
-    return Thing.find({
+    return TutorialChapter.find({
         where: {
             id: req.params.id
         }
@@ -91,23 +90,42 @@ export function showByIdTutorial(req, res) {
 
 // Creates a new Thing in the DB
 export function create(req, res) {
-    return Thing.create(req.body)
+    return TutorialChapter.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
 
+
+
 // Upserts the given Thing in the DB at the specified ID
 export function upsert(req, res) {
-    if(req.body.id) {
+    if (req.body.id) {
         Reflect.deleteProperty(req.body, 'id');
     }
-    return Thing.upsert(req.body, {
-        where: {
-            id: req.params.id
+
+    return TutorialChapter.findById(req.params.id).then(item => {
+        if (item) {
+            TutorialChapter.update(
+                req.body,
+                {
+                    where: { id: req.params.id },
+                    //logging: console.log
+                }
+            )
+                .then(respondWithResult(res))
+                .catch(handleError(res));
+        } else {
+            TutorialChapter.create(
+                req.body,
+                {
+                    where: { id: req.params.id },
+                    //logging: console.log
+                }
+            )
+                .then(respondWithResult(res))
+                .catch(handleError(res));
         }
-    })
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    });
 }
 
 // Updates an existing Thing in the DB
@@ -115,7 +133,7 @@ export function patch(req, res) {
     if(req.body.id) {
         Reflect.deleteProperty(req.body, 'id');
     }
-    return Thing.find({
+    return TutorialChapter.find({
         where: {
             id: req.params.id
         }
@@ -128,7 +146,7 @@ export function patch(req, res) {
 
 // Deletes a Thing from the DB
 export function destroy(req, res) {
-    return Thing.find({
+    return TutorialChapter.find({
         where: {
             id: req.params.id
         }

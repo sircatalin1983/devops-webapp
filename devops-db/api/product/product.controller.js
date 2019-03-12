@@ -87,17 +87,35 @@ export function create(req, res) {
 
 // Upserts the given Thing in the DB at the specified ID
 export function upsert(req, res) {
-    if(req.body.id) {
+    if (req.body.id) {
         Reflect.deleteProperty(req.body, 'id');
     }
-    return Product.upsert(req.body, {
-        where: {
-            id: req.params.id
+
+    return Product.findById(req.params.id).then(item => {
+        if (item) {
+            Product.update(
+                req.body,
+                {
+                    where: { id: req.params.id },
+                    //logging: console.log
+                }
+            )
+                .then(respondWithResult(res))
+                .catch(handleError(res));
+        } else {
+            Product.create(
+                req.body,
+                {
+                    where: { id: req.params.id },
+                    //logging: console.log
+                }
+            )
+                .then(respondWithResult(res))
+                .catch(handleError(res));
         }
-    })
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    });
 }
+
 
 // Updates an existing Thing in the DB
 export function patch(req, res) {
