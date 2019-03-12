@@ -28,6 +28,16 @@ export class CategoryDetailComponent implements OnInit {
       .subscribe(item => this.item = item);
   }
 
+  onFileImageInput(event) {
+    var fileReader = new FileReader();
+    for (const file of event.target.files) {
+      fileReader.readAsDataURL(file);
+      fileReader.onload = (eventx) => {
+        this.item.image = eventx.target['result'];
+      }
+    }
+  }
+
   goBack(): void {
     this.location.back();
   }

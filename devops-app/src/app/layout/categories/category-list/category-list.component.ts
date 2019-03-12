@@ -12,7 +12,7 @@ import { CategoryService } from '../../../shared/services/category/category.serv
 })
 export class CategoryListComponent implements OnInit {
   public dataSource = null;
-  public displayedColumns = ['id', 'name', 'info', 'active', 'image'];
+  public displayedColumns = ['image', 'id', 'name', 'info', 'active'];
 
   constructor(
     private route: ActivatedRoute,

@@ -11,9 +11,10 @@
 import { applyPatch } from 'fast-json-patch';
 import { TutorialChapter } from '../../sqldb';
 
-function respondWithResult(res, statusCode)
-    return function(entity) {
-        if(entity) {
+function respondWithResult(res, statusCode) {
+    statusCode = statusCode || 200;
+    return function (entity) {
+        if (entity) {
             return res.status(statusCode).json(entity);
         }
         return null;

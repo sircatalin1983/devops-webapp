@@ -7,7 +7,7 @@ import { TutorialListComponent } from './tutorial-list/tutorial-list.component';
 const routes: Routes = [
   { path: '', redirectTo: 'tutorial-list' },
   { path: 'tutorial-list', component: TutorialListComponent },
-  { path: 'tutorial-detail/:id', component: TutorialDetailComponent }
+  { path: 'tutorial-detail/:id/:viewtype', component: TutorialDetailComponent }
 ];
 
 @NgModule({

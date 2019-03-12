@@ -14,10 +14,16 @@
       <input [(ngModel)]="item.active" placeholder="active" />
     </label>
     <br />
-    <label>image:
-      <input [(ngModel)]="item.image" placeholder="image" />
-    </label>
-    <br />
+    <p>Imagine:</p>
+    <button mat-raised-button (click)="fileImageInput.click()">
+      <span>Select Image</span>
+      <input #fileImageInput type="file" style="display:none;" accept="image/jpeg, .jpeg, image/png, .png, image/pjpeg, .jpg"
+        (change)="onFileImageInput($event)" />
+    </button>
+    <br /><br /><br />
+    <div>
+      <img class="mb-image" mat-card-image [src]="item.image" *ngIf="item.image">
+    </div>
   </div>
   <button (click)="goBack()">go back</button>
   <button (click)="save()">save</button>

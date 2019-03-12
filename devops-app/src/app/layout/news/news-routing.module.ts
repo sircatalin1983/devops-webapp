@@ -7,7 +7,7 @@ import { NewListComponent } from './new-list/new-list.component';
 const routes: Routes = [
   { path: '', redirectTo: 'new-list' },
   { path: 'new-list', component: NewListComponent },
-  { path: 'new-detail/:id', component: NewDetailComponent }
+  { path: 'new-detail/:id/:viewtype', component: NewDetailComponent }
 ];
 
 @NgModule({
